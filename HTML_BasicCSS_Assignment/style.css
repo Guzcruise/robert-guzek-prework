@@ -2,5 +2,29 @@ body {
   margin: 0;
   line-height: 1.5;
   text-transform: uppercase;
+  background-color: skyblue;
+}
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+}
+h1 {
+  color: white;
+  font-size: 75px;
+}
+
+#quote {
+  height: 20px;
+  margin-left: 37%;
+  margin-right: 37%;
+  padding-bottom: 3px;
+  position: relative;
+  border: 2px solid white;
+  color: white;
 }
 
