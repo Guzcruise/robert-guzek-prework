@@ -35,3 +35,30 @@ h1 {
   color: white;
   font-size: 20px;
 }
+
+.btn {
+  color: white;
+  border:2px solid white;
+}
+
+a {
+  color: white;
+}
+
+@media screen and (max-width: 750px) {
+  .jumbotron {
+    width: 100%;
+  }
+
+  body {
+    background-color: thistle;
+  }
+
+  .jumbotron {
+    background-color: thistle;
+  }
+
+  .container {
+    background-color: thistle;
+  }
+}
