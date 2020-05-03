@@ -54,6 +54,12 @@ h2 {
 .nav__links li {
     display: inline-block;
     padding: 0px 10px;
+    color: gray;
+    text-decoration: gray;
+}
+
+.nav__links li a {
+    color: gray;
 }
 
 h3 {
