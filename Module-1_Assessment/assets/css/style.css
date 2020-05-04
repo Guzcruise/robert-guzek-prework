@@ -244,18 +244,6 @@ footer {
 .container {
     width: 100%;
 }
-
-      footer {
-        width: 100%;
-        text-align: center;
-        background-color: gray;
-        border-top: 3px solid #4aaaa5;
-        margin-top: 30px;
-        font-size: 8px;
-        color: white;
-        padding-top: 15px;
-
-      }
   }
 
   @media screem and (max-width:500px) {
