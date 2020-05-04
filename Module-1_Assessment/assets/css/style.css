@@ -104,9 +104,61 @@ h4 {
     margin-bottom: 40px;
 }
 
-p {
+.navbar {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    background-color: gray;
+    border-top: 3px solid #4aaaa5;
+    margin-top: 30px;
+    font-size: 8px;
+    color: white;
+    padding-top: 15px;
+}
+
+#cyc {
     background-color: #4aaaa5;
     color: white;
     font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
     padding: 10px 0px;
+}
+
+#ch {
+    background-color: #4aaaa5;
+    color: white;
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    padding: 10px 0px;
+}
+
+#at {
+    background-color: #4aaaa5;
+    color: white;
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    padding: 10px 0px;
+}
+
+#nl {
+    background-color: #4aaaa5;
+    color: white;
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    padding: 10px 0px;
+}
+
+#ct {
+    background-color: #4aaaa5;
+    color: white;
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    padding: 10px 0px;
+}
+
+#Pro {
+    background-image: url('../images/Food.jpg');
+    padding-top: 75px;
+    padding-bottom: 25px;
+    margin-bottom: 40px;
+}
+
+#me {
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+
 }
