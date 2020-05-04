@@ -202,6 +202,43 @@ footer {
     line-height: -10em;
   }
 
+  #Name {
+    width: 100%;
+    color: #777777;
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    padding: 5px 0;
+  }
+
+  #Email {
+    width: 100%;
+    color: #777777;
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    padding: 5px 0;
+  }
+ 
+  #Msg {
+      width: 100%;
+      color: #777777;
+      font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+      padding: 5px 0;
+  }
+
+  #mess {
+      min-height: 150px;
+      color: #cccccc;
+  }
+
+  input {
+      width: 100%;
+  }
+
+  .btn-info {
+      border-radius: 0 !important;
+      background-color: #4aaaa5;
+      border: none;
+      margin: 10px 0px;
+  }
+
   @media screen and (max-width: 768px) {
 
 .container {
