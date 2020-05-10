@@ -1,32 +1,31 @@
-var userGuess = document.getElementById("userGuess"); //TODO link to show past wrong guess
-var userAnswer = document.getElementById("userAnswer"); //TODO link to show users right guesses
-var userWins = document.getElementById("win"); 
-var userLoss = document.getElementById("lose"); 
-var userTries = document.getElementById("tries"); 
-var instructions = document.getElementById("instructions");
-var img = document.getElementById("picture");
+var Guess = document.getElementById("Guess"); //TODO link to show past wrong guess
+var Answer = document.getElementById("Answer"); //TODO link to show users right guesses
+var userVict = document.getElementById("victories"); 
+var userDef = document.getElementById("defeats"); 
+var userAtt = document.getElementById("attempts"); 
+var directions = document.getElementById("directions");
+var img = document.getElementById("pic");
 var message = document.getElementById("message");
 var inputField = document.getElementById("textInput");
 
-//Object Class that holds the game core data
-var gameCore = {
+var gameMain = {
     
-    winCount: 0,
-    loseCount: 0,
-    triesLeft: 10,
+    VictCount: 0,
+    DefCount: 0,
+    attLeft: 10,
     wordList: ['BATMAN', 'SONIC', 'RAIDEN', 'MARIO', 'RYU', 'SNAKE', 'DRAGONBORN', 'KRATOS' , 'PIKACHU', 'GERALT', 'LARA CROFT'], //List of words for game
     imgList: ['Batman.jpg', 'Sonic.jpg', 'Raiden.jpg', 'Mario.jpg', 'Ryu.jpg', 'Snake.jpg', 'Dragonborn.jpg', 'Kratos.png', 'Pikachu.png', 'Geralt.png','Lara.jpg'], //List image reference
     answers: "",
     imageSrc: "",
-    displayWord: [], //Empty list to display word as '_' and to compare with answers
-    wrongGuess: [], //Empty list to hold letters that the user guessed wrong
-    rightGuess: [], //Empty list to hold letters that the user guessed right
+    displayWord: [],
+    wrongGuess: [], 
+    rightGuess: [], 
 
-    gameStart: false, //trigger flag for press anykey
+    gameStart: false,
 
     gameReset: function() {
         //Resets the guess list and number of tries
-        this.triesLeft = 10;
+        this.attLeft = 10;
         this.wrongGuess = [];
         this.rightGuess = [];
         this.displayWord = [];
@@ -39,8 +38,8 @@ var gameCore = {
         this.displayWordBlank();
 
         message.textContent = "INPUT THE LETTERS!";
-        userGuess.textContent = "GUESSES: ";
-        userTries.textContent = this.triesLeft;
+        Guess.textContent = "GUESSES: ";
+        userAtt.textContent = this.attLeft;
         inputField.value = ""; //make sure field is blank upon reset
     },
 
@@ -67,9 +66,9 @@ var gameCore = {
                 this.displayWord.push(this.answers[i]);
             }
         }
-        userAnswer.textContent = "";
+        Answer.textContent = "";
         for (j=0; j<this.displayWord.length; j++){
-            userAnswer.textContent += (this.displayWord[j] + "\xa0"); 
+            Answer.textContent += (this.displayWord[j] + "\xa0"); 
         }
     },
 };
@@ -84,19 +83,19 @@ function isAlpha(keyCode){
 
 function isInWord(letter){
     //Takes a 'string' and returns true if it is part of the answer, false otherwise
-    return (gameCore.answers.indexOf(letter) != -1);
+    return (gameMain.answers.indexOf(letter) != -1);
 }
 
 function replaceBlank(letter){
     //replace '_ ' with the correct letter according to answers and display them
-    for (i=0; i<gameCore.displayWord.length; i++){
-        if (letter == gameCore.answers[i]){
-            gameCore.displayWord[i] = letter;
+    for (i=0; i<gameMain.displayWord.length; i++){
+        if (letter == gameMain.answers[i]){
+            gameMain.displayWord[i] = letter;
         }
     }
-    userAnswer.textContent = "";
-    for (j=0; j<gameCore.displayWord.length; j++){
-        userAnswer.textContent += (gameCore.displayWord[j] + "\xa0"); 
+    Answer.textContent = "";
+    for (j=0; j<gameMain.displayWord.length; j++){
+        Answer.textContent += (gameMain.displayWord[j] + "\xa0"); 
     } 
 }
 
@@ -104,28 +103,28 @@ function checkAnswer(){
     //Checks if the user got the whole word
     //returns true if match, false otherwise
     var inputWord = "";
-    for (i=0; i<gameCore.displayWord.length; i++){
-        inputWord += gameCore.displayWord[i];
+    for (i=0; i<gameMain.displayWord.length; i++){
+        inputWord += gameMain.displayWord[i];
     }
-    return (inputWord == gameCore.answers);
+    return (inputWord == gameMain.answers);
 }
 
 //Main
 //Detects a key up event to start or run game
 document.onkeyup = function(event){
-    if (gameCore.gameStart == false){
+    if (gameMain.gameStart == false){
         //Game hasn't started, 'press anykey event' flag
         inputField.value = ""; //Redundant code to ensure field is blank
-        gameCore.gameStart = true;
-        instructions.textContent = "Your Hints: Mortal Kombat|Tomb Raider|Street Fighter|Pokemon|Metal Gear Solid|Skyrim|Hedgehog|God of War|Witcher|Luigi|Gotham ";
-        gameCore.gameReset();
+        gameMain.gameStart = true;
+        directions.textContent = "Your Hints: Mortal Kombat|Tomb Raider|Street Fighter|Pokemon|Metal Gear Solid|Skyrim|Hedgehog|God of War|Witcher|Luigi|Gotham ";
+        gameMain.gameReset();
     }
     else if(checkAnswer()){
         //User Wins
-        gameCore.gameReset();
-        instructions.textContent = "Your Hints: Mortal Kombat|Tomb Raider|Street Fighter|Pokemon|Metal Gear Solid|Skyrim|Hedgehog|God of War|Witcher|Luigi|Gotham ";
+        gameMain.gameReset();
+        directions.textContent = "Your Hints: Mortal Kombat|Tomb Raider|Street Fighter|Pokemon|Metal Gear Solid|Skyrim|Hedgehog|God of War|Witcher|Luigi|Gotham ";
     }
-    else if (gameCore.triesLeft > 0){
+    else if (gameMain.attLeft > 0){
         //Round is not over
         var userInput;
         var inputCode;
@@ -143,47 +142,45 @@ document.onkeyup = function(event){
         if(isAlpha(inputCode)){
             var inputUpper = userInput.toUpperCase();
             //Valid Input, Start Comparing, ignore cases of repeted letter guess
-            if (isInWord(inputUpper) && (gameCore.rightGuess.indexOf(inputUpper)==-1)){
-                gameCore.pastGuess(inputUpper, 1);
+            if (isInWord(inputUpper) && (gameMain.rightGuess.indexOf(inputUpper)==-1)){
+                gameMain.pastGuess(inputUpper, 1);
                 replaceBlank(inputUpper);
                 inputField.value = ""; //Redundant code to ensure field is blank
 
                 if(checkAnswer()){
                     //User Win Condition, 
                     //this is here so user can see the final word
-                    gameCore.winCount++;
-                    userWins.textContent = gameCore.winCount;
+                    gameMain.VictCount++;
+                    userVict.textContent = gameMain.VictCount;
                     message.textContent = "!!!VICTORY!!!";
-                    instructions.textContent = "PRESS ANY KEY 2 PLAY AGAIN";
-                    img.src = "assets/images/" + gameCore.imageSrc;
+                    directions.textContent = "PRESS ANY KEY 2 PLAY AGAIN";
+                    img.src = "assets/images/" + gameMain.imageSrc;
                 }
             }
-            else if ((gameCore.wrongGuess.indexOf(inputUpper)==-1) && (gameCore.rightGuess.indexOf(inputUpper)==-1)){
-                gameCore.pastGuess(inputUpper, 2);
-                gameCore.triesLeft--;
+            else if ((gameMain.wrongGuess.indexOf(inputUpper)==-1) && (gameMain.rightGuess.indexOf(inputUpper)==-1)){
+                gameMain.pastGuess(inputUpper, 2);
+                gameMain.attLeft--;
 
-                if(gameCore.triesLeft == 0){
-                    instructions.textContent = "Enter any key to continue";
-                    message.textContent = "The Answer was: " + gameCore.answers;
+                if(gameMain.triesLeft == 0){
+                    directions.textContent = "PRESS ANY KEY 2 PLAY AGAIN";
+                    message.textContent = "DEFEAT! SOLUTION: " + gameMain.answers;
                 }
 
                 //Link values to HTML
-                userGuess.textContent += (inputUpper + "\xa0");
-                userTries.textContent = gameCore.triesLeft;
-                inputField.value = ""; //Redundant code to ensure field is blank
+                Guess.textContent += (inputUpper + "\xa0");
+                userAtt.textContent = gameMain.attLeft;
+                inputField.value = "";
             }
         }
         else{
-            //Invalid Input
-            alert("Please press only letters!");
+            alert("WARNING!! LETTERS MUST BE TYPED");
             inputField.value = "";
         }
 
     }
     else{
-        //Round Lost
-        gameCore.gameReset();
-        gameCore.loseCount++;
-        userLoss.textContent = gameCore.loseCount;
+        gameMain.gameReset();
+        gameMain.DefCount++;
+        userDef.textContent = gameMain.DefCount;
     }
 }
