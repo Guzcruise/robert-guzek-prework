@@ -1,186 +1,160 @@
-var Guess = document.getElementById("Guess"); //TODO link to show past wrong guess
-var Answer = document.getElementById("Answer"); //TODO link to show users right guesses
-var userVict = document.getElementById("victories"); 
-var userDef = document.getElementById("defeats"); 
-var userAtt = document.getElementById("attempts"); 
+var Guess = document.getElementById("Guess"); 
+var Answer = document.getElementById("Answer");
+var Vict = document.getElementById("victories"); 
+var Def = document.getElementById("defeats"); 
+var Att = document.getElementById("attempts"); 
 var directions = document.getElementById("directions");
 var img = document.getElementById("pic");
 var message = document.getElementById("message");
-var inputField = document.getElementById("textInput");
-
+var attArea = document.getElementById("txtm");
+//****************MAIN GAME CODE*************** */
+let audio = new Audio('assets/sounds/started.mp3');
+                    audio.play();
 var gameMain = {
-    
-    VictCount: 0,
-    DefCount: 0,
-    attLeft: 10,
+    VictCount: 0, 
+    DefCount: 0, 
+    attremain: 10,
     wordList: ['BATMAN', 'SONIC', 'RAIDEN', 'MARIO', 'RYU', 'SNAKE', 'DRAGONBORN', 'KRATOS' , 'PIKACHU', 'GERALT', 'LARA CROFT'], //List of words for game
     imgList: ['Batman.jpg', 'Sonic.jpg', 'Raiden.jpg', 'Mario.jpg', 'Ryu.jpg', 'Snake.jpg', 'Dragonborn.jpg', 'Kratos.png', 'Pikachu.png', 'Geralt.png','Lara.jpg'], //List image reference
-    answers: "",
-    imageSrc: "",
-    displayWord: [],
-    wrongGuess: [], 
-    rightGuess: [], 
-
-    gameStart: false,
-
-    gameReset: function() {
-        //Resets the guess list and number of tries
-        this.attLeft = 10;
-        this.wrongGuess = [];
-        this.rightGuess = [];
-        this.displayWord = [];
-
-        //randomly choose new word from list of game words
-        var ranNum = Math.floor(Math.random() * this.wordList.length)
-        this.answers = this.wordList[ranNum];
-        this.imageSrc = this.imgList[ranNum];
-        //console.log(this.answers); //DEBUG CODE/ GAME CHEAT REMOVE WHEN DONE
-        this.displayWordBlank();
+    ans: "",
+    imgsource: "", 
+    show: [], incorrect: [],  correct: [], 
+    Begin: false,
+//****************PAGE RESET CODE*************** */
+    pageReset: function() {
+        this.attremain = 10; this.incorrect = [];
+        this.correct = []; this.show = [];
+//****************CHOOSES WORD*************** */
+        var randomN = Math.floor(Math.random() * this.wordList.length)
+        this.ans = this.wordList[randomN];
+        this.imgsource = this.imgList[randomN];
+        this.showBlank();
 
         message.textContent = "INPUT THE LETTERS!";
         Guess.textContent = "GUESSES: ";
-        userAtt.textContent = this.attLeft;
-        inputField.value = ""; //make sure field is blank upon reset
+        Att.textContent = this.attremain; attArea.value = "";
+        let audio = new Audio('assets/sounds/started.mp3');
+                    audio.play()
     },
-
-    pastGuess: function(letter, state) {
-        //Populate wrongGuess or rightGuess lists with the user's past guesses
+//****************LETTER ATTEMPT CONDITION*************** */
+    PriorAtt: function(letter, state) {
         if (state == 1){
-            //correct guess
-            this.rightGuess.push(letter);
+            this.correct.push(letter);
         }
         else if (state == 2){
-            //incorrect guess
-            this.wrongGuess.push(letter);
+            this.incorrect.push(letter);
         }
     },
 
-    displayWordBlank: function() {
-        //Display answer word as '_ '
-        for (i=0; i<this.answers.length; i++){
-            if (isAlpha(this.answers.charCodeAt(i))){
-                this.displayWord.push('_');
+    showBlank: function() {
+        for (i=0; i<this.ans.length; i++){
+            if (underscore(this.ans.charCodeAt(i))){
+                this.show.push('_');
             }
             else{
-                //if the element is not AlphaNumeric leave as is
-                this.displayWord.push(this.answers[i]);
+                this.show.push(this.ans[i]);
             }
         }
         Answer.textContent = "";
-        for (j=0; j<this.displayWord.length; j++){
-            Answer.textContent += (this.displayWord[j] + "\xa0"); 
+        for (j=0; j<this.show.length; j++){
+            Answer.textContent += (this.show[j] + "\xa0"); 
         }
     },
 };
 
-//Functions
-function isAlpha(keyCode){
-    /*Function checks if input (event.keyCode) is AlphaNumeric, returns true or false
-    keyCode 48-57 (0-9), 65-90 (A-Z)
-    Note: Keyboard input 65-90 (A-Z == a-Z)*/
+//****************ALTERATION OF HIDDEN LETTERS*************** */
+function underscore(keyCode){
     return ((keyCode >= 65 && keyCode <= 90)||(keyCode >= 97 && keyCode <= 122));
 }
 
-function isInWord(letter){
-    //Takes a 'string' and returns true if it is part of the answer, false otherwise
-    return (gameMain.answers.indexOf(letter) != -1);
+function validLT(letter){
+    return (gameMain.ans.indexOf(letter) != -1);
 }
 
-function replaceBlank(letter){
-    //replace '_ ' with the correct letter according to answers and display them
-    for (i=0; i<gameMain.displayWord.length; i++){
-        if (letter == gameMain.answers[i]){
-            gameMain.displayWord[i] = letter;
+function alterUS(letter){
+    for (i=0; i<gameMain.show.length; i++){
+        if (letter == gameMain.ans[i]){
+            gameMain.show[i] = letter;
         }
     }
     Answer.textContent = "";
-    for (j=0; j<gameMain.displayWord.length; j++){
-        Answer.textContent += (gameMain.displayWord[j] + "\xa0"); 
+    for (j=0; j<gameMain.show.length; j++){
+        Answer.textContent += (gameMain.show[j] + "\xa0"); 
     } 
 }
-
-function checkAnswer(){
-    //Checks if the user got the whole word
-    //returns true if match, false otherwise
-    var inputWord = "";
-    for (i=0; i<gameMain.displayWord.length; i++){
-        inputWord += gameMain.displayWord[i];
+//****************CORRECT WORD CONFIRMATION*************** */
+function confirmANS(){
+    var confirmWORD = "";
+    for (i=0; i<gameMain.show.length; i++){
+        confirmWORD += gameMain.show[i];
     }
-    return (inputWord == gameMain.answers);
+    return (confirmWORD == gameMain.ans);
 }
 
-//Main
-//Detects a key up event to start or run game
+//*********************** KEY START *****************/
 document.onkeyup = function(event){
-    if (gameMain.gameStart == false){
-        //Game hasn't started, 'press anykey event' flag
-        inputField.value = ""; //Redundant code to ensure field is blank
-        gameMain.gameStart = true;
+    if (gameMain.Begin == false){
+        attArea.value = ""; 
+        gameMain.Begin = true;
         directions.textContent = "Your Hints: Mortal Kombat|Tomb Raider|Street Fighter|Pokemon|Metal Gear Solid|Skyrim|Hedgehog|God of War|Witcher|Luigi|Gotham ";
-        gameMain.gameReset();
+        gameMain.pageReset();
     }
-    else if(checkAnswer()){
-        //User Wins
-        gameMain.gameReset();
+    else if(confirmANS()){
+        gameMain.pageReset();
         directions.textContent = "Your Hints: Mortal Kombat|Tomb Raider|Street Fighter|Pokemon|Metal Gear Solid|Skyrim|Hedgehog|God of War|Witcher|Luigi|Gotham ";
     }
-    else if (gameMain.attLeft > 0){
-        //Round is not over
-        var userInput;
-        var inputCode;
-        if (inputField.value!=""){
-            userInput = inputField.value;
-            inputCode = userInput.charCodeAt(0);
-            inputField.value = ""; //reset input box
+    else if (gameMain.attremain > 0){
+        var inpKEY;
+        var inpCONT;
+        if (attArea.value!=""){
+            inpKEY = attArea.value;
+            inpCONT = inpKEY.charCodeAt(0);
+            attArea.value = "";
         }
         else{
-            userInput = event.key;
-            inputCode = event.keyCode;
+            inpKEY = event.key;
+            inpCONT = event.keyCode;
         }
-        //var userInput = event.key;
-        //Check for valid input
-        if(isAlpha(inputCode)){
-            var inputUpper = userInput.toUpperCase();
-            //Valid Input, Start Comparing, ignore cases of repeted letter guess
-            if (isInWord(inputUpper) && (gameMain.rightGuess.indexOf(inputUpper)==-1)){
-                gameMain.pastGuess(inputUpper, 1);
-                replaceBlank(inputUpper);
-                inputField.value = ""; //Redundant code to ensure field is blank
+        
+        if(underscore(inpCONT)){
+            var upcase = inpKEY.toUpperCase();
+            if (validLT(upcase) && (gameMain.correct.indexOf(upcase)==-1)){
+                gameMain.PriorAtt(upcase, 1);
+                alterUS(upcase);
+                attArea.value = ""; 
 
-                if(checkAnswer()){
-                    //User Win Condition, 
-                    //this is here so user can see the final word
+                if(confirmANS()){
                     gameMain.VictCount++;
-                    userVict.textContent = gameMain.VictCount;
+                    Vict.textContent = gameMain.VictCount;
                     message.textContent = "!!!VICTORY!!!";
                     directions.textContent = "PRESS ANY KEY 2 PLAY AGAIN";
-                    img.src = "assets/images/" + gameMain.imageSrc;
+                    img.src = "assets/images/" + gameMain.imgsource;
+                    let audio = new Audio('assets/sounds/victory.mp3');
+                    audio.play()
                 }
             }
-            else if ((gameMain.wrongGuess.indexOf(inputUpper)==-1) && (gameMain.rightGuess.indexOf(inputUpper)==-1)){
-                gameMain.pastGuess(inputUpper, 2);
-                gameMain.attLeft--;
+            else if ((gameMain.incorrect.indexOf(upcase)==-1) && (gameMain.correct.indexOf(upcase)==-1)){
+                gameMain.PriorAtt(upcase, 2);
+                gameMain.attremain--;
 
-                if(gameMain.triesLeft == 0){
+                if(gameMain.attremain == 0){
                     directions.textContent = "PRESS ANY KEY 2 PLAY AGAIN";
-                    message.textContent = "DEFEAT! SOLUTION: " + gameMain.answers;
+                    message.textContent = "DEFEAT! SOLUTION: " + gameMain.ans;
+                    let audio = new Audio('assets/sounds/defeat.mp3');
+                    audio.play();
                 }
 
-                //Link values to HTML
-                Guess.textContent += (inputUpper + "\xa0");
-                userAtt.textContent = gameMain.attLeft;
-                inputField.value = "";
+                Guess.textContent += (upcase + "\xa0");
+                Att.textContent = gameMain.attremain;
+                attArea.value = "";
             }
-        }
-        else{
-            alert("WARNING!! LETTERS MUST BE TYPED");
-            inputField.value = "";
         }
 
     }
     else{
-        gameMain.gameReset();
+        gameMain.pageReset();
         gameMain.DefCount++;
-        userDef.textContent = gameMain.DefCount;
+        Def.textContent = gameMain.DefCount;
     }
 }
+// Game end :)

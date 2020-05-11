@@ -6,15 +6,13 @@ html, body{
     padding: 0;
     line-height: 1.6;
     font-family: 'Press Start 2P', cursive;
-
-    /*Properties for sticky footer, flexbox for variable height*/
     display: flex;
     min-height: 100vh;
     flex-direction: column;
 }
 
 .container{
-    flex: 1;
+    flex: 2;
 }
 
 header{
@@ -29,7 +27,6 @@ img{
     transform: translate(-50%);
 }
 
-/*id CSS*/
 #hdr{
     background-image: url("../images/8bit.png");
     background-color: black;
@@ -56,28 +53,14 @@ img{
     border: 5px solid black;
 }
 
-/*media queries*/
-@media only screen and (max-width:667px){
-    h3, p{
-        font-size: 15px;
-    }
-    #hdr{
-        font-size: 15px;
-    }
-    h1{
-        font-size: 30px;
-    }
-    h2{
-        font-size: 20px;
+/*responsiveness*/
+@media screen and (max-width:768px){
+    body {
+        width: 100%;
     }
 }
 
-@media only screen and (max-width: 768px){
-    .mbl{
-        display: block;
-    }
-}
-@media only screen and (min-width: 769px){
+@media screen and (min-width: 400px){
     .mbl{
         display: none;
     }
