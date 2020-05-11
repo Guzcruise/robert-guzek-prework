@@ -18,3 +18,4 @@ Regardless of victory or defeat, the player will be prompted to press a key to r
 Everytime the player gets a new word, they will be given ten attempts before defeat, and in the same box of stats, titled 'STATSHEET', the overall resulted will be shown, such as victories and defeats.
 ------------------------------------------------------------
 Now that you know how the game looks and runs... its time to TEST YOUR MIGHT!
+---------------------------------------------------------
