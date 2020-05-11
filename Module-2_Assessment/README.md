@@ -3,7 +3,7 @@ Module 2 Assessment - Game - Robert Guzek
 The theme for the game is iconic video game characters.
 The player will play the game using hints, the hints will
 help the player get an idea of which iconic characters
-they can guess. The guesses will also be displayed to let the user known which letters were already guessed.
+they can guess. The guesses will also be displayed to let the user know which letters were already guessed.
 ------------------------------------------------------------
 Once the player loads into the game, they will be greeted by
 some fun messages and emojis, all video game related. when the
